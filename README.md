@@ -1,5 +1,7 @@
 # Prim – ein Baum, der von einem Punkt aus wächst – Streamlit-Demo
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-prim-demo.streamlit.app/)**
+
 Zweites Stück der **Spannbaum-Reihe** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning", der **Kontrast zu Kruskal**. Dieselbe Aufgabe (ein Depot und n Filialen, gesucht das billigste Leitungsnetz, das alle verbindet: ein **minimaler Spannbaum**), derselbe Baum, aber ein anderer Weg dorthin: **Prim** (Jarník 1930, Prim 1957) startet an **einem** Knoten und lässt einen einzigen Baum wachsen. In jedem Schritt kommt die billigste Kante hinzu, die den Baum mit einem noch nicht angeschlossenen Knoten verbindet. Nur diese Kanten - der **Rand** - müssen verwaltet werden. Wie, ist die eigentliche Frage: als **Array** (jede Runde alle Kandidaten scannen), als **Heap aus Kanten** (veraltete Einträge beim Entnehmen verwerfen, "lazy") oder als **Heap aus Knoten mit Decrease-Key**. Kruskal aus [kruskal-demo](../kruskal-demo) läuft als Vergleich und Kontrollrechnung mit.
 
 **Einordnung in die Reihe:** geplant sind elf Stücke, dies ist das zweite:
