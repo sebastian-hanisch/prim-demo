@@ -4,18 +4,18 @@
 
 Zweites Stück der **Spannbaum-Reihe** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning", der **Kontrast zu Kruskal**. Dieselbe Aufgabe (ein Depot und n Filialen, gesucht das billigste Leitungsnetz, das alle verbindet: ein **minimaler Spannbaum**), derselbe Baum, aber ein anderer Weg dorthin: **Prim** (Jarník 1930, Prim 1957) startet an **einem** Knoten und lässt einen einzigen Baum wachsen. In jedem Schritt kommt die billigste Kante hinzu, die den Baum mit einem noch nicht angeschlossenen Knoten verbindet. Nur diese Kanten - der **Rand** - müssen verwaltet werden. Wie, ist die eigentliche Frage: als **Array** (jede Runde alle Kandidaten scannen), als **Heap aus Kanten** (veraltete Einträge beim Entnehmen verwerfen, "lazy") oder als **Heap aus Knoten mit Decrease-Key**. Kruskal aus [kruskal-demo](../kruskal-demo) läuft als Vergleich und Kontrollrechnung mit.
 
-**Einordnung in die Reihe:** geplant sind elf Stücke, dies ist das zweite:
+**Einordnung in die Reihe:** die Reihe hat elf Stücke, dies ist das zweite:
 
 ```
 Kruskal (Wurzel)                                                                           [gebaut: kruskal-demo]
  ├─ Prim (Kontrast: wächst von einem Punkt)                                                [DIESES STÜCK]
- ├─ Borůvka (Kontrast: alle Komponenten parallel)                                          [nicht gebaut]
- ├─ Euklidischer MST (keine n²-Kantenliste, Delaunay)                                      [nicht gebaut]
- ├─ Gerichteter Spannbaum (Chu-Liu/Edmonds)                                                [nicht gebaut]
- ├─ Bottleneck-/Grad-/Hop-beschränkter Spannbaum → Kapazitierter MST                       [nicht gebaut]
- ├─ Steiner-Baum → Prize-Collecting Steiner-Baum                                           [nicht gebaut]
- ├─ MST-Sensitivität & dynamischer MST                                                     [nicht gebaut]
- └─ Zufällige Spannbäume & Kirchhoff                                                       [nicht gebaut]
+ ├─ Borůvka (Kontrast: alle Komponenten parallel)                                          [gebaut: boruvka-demo]
+ ├─ Euklidischer MST (keine n²-Kantenliste, Delaunay)                                      [gebaut: euclidean-mst-demo]
+ ├─ Gerichteter Spannbaum (Chu-Liu/Edmonds)                                                [gebaut: arborescence-demo]
+ ├─ Bottleneck-/Grad-/Hop-beschränkter Spannbaum → Kapazitierter MST                       [gebaut: constrained-mst-demo, cmst-demo]
+ ├─ Steiner-Baum → Prize-Collecting Steiner-Baum                                           [gebaut: steiner-tree-demo, pcst-demo]
+ ├─ MST-Sensitivität & dynamischer MST                                                     [gebaut: mst-sensitivity-demo]
+ └─ Zufällige Spannbäume & Kirchhoff                                                       [gebaut: random-spanning-tree-demo]
 ```
 
 Ergebnis in Kürze: **Der Baum ist immer derselbe - der Aufwand nicht, und Kruskal ist dabei nie das billigste Verfahren.** In **Elementarschritten** (Schlüsselvergleiche plus je eine Einheit je Heap-Operation bzw. Union-Find-Suche, ausdrücklich keine Laufzeit) braucht bei 30 Filialen und k = 6 Nachbarn der **Heap mit Decrease-Key 431**, das **Array 552**, Kruskal **947** und der **lazy-Heap 1157** Schritte. Der lazy-Heap ist also nicht "praktisch gleich gut": Decrease-Key braucht nur das **0,37-Fache**, und beim vollständigen Graphen mit 160 Filialen wächst der lazy-Heap auf **12 424** Einträge (Decrease-Key: 160). Dafür wird das Array **bei dichten Graphen und kleinen Instanzen** unschlagbar (n = 30: ab k = 20; vollständiger Graph: bis n = 40). Startknoten und Umsetzung ändern **nie** den Baum, aber die Reihenfolge, in der Prim die Kanten annimmt, ist der von Kruskal nur lose verwandt (Rang-Korrelation 0,40; bei weit entferntem Start 0,10).
@@ -71,7 +71,7 @@ Die einzelne Instanz weicht von den Medianen ab - die Mediane sind die belastbar
 - **Erwartung "Kruskal verliert bei dichten Graphen wegen des Sortierens" - bestätigt, aber nicht überall:** beim vollständigen Graphen n = 160 braucht Kruskal 161 015 Schritte gegen 19 195 (Decrease-Key). Im sehr dünnen Graphen (k = 3) ist er dagegen konkurrenzfähig und schlägt Array und lazy-Heap.
 - **Erwartung "Decrease-Keys folgen n·ln(m/n)" - nur die Größenordnung:** die Herleitung gilt für zufällige Kantenreihenfolgen; räumliche Instanzen liegen bis zum 2,6-Fachen darüber.
 - **Das einfache Array ist nicht veraltet:** bei dichten Graphen und kleinen Instanzen gewinnt es, weil es keine Datenstruktur verwaltet.
-- **Nicht gebaut:** **Fibonacci-Heap** (Fredman & Tarjan 1987: O(m + n log n)); in der Praxis gilt der binäre Heap meist als schneller, das ist hier nicht gemessen. Ebenso nicht gebaut: Borůvka, Euklidischer MST, gerichtete Spannbäume, Nebenbedingungen, Steiner-Bäume, Sensitivität, Kirchhoff. Familienähnlichkeit: Prim ist Dijkstra mit anderer Schlüsselregel (Kosten der Randkante statt Weglänge) - ein Bezug zur Kürzeste-Wege-Linie, hier nicht vertieft.
+- **Nicht gebaut:** **Fibonacci-Heap** (Fredman & Tarjan 1987: O(m + n log n)); in der Praxis gilt der binäre Heap meist als schneller, das ist hier nicht gemessen. Ebenfalls nicht Teil dieser Demo (eigene Stücke der Reihe, gebaut): Borůvka, Euklidischer MST, gerichtete Spannbäume, Nebenbedingungen, Steiner-Bäume, Sensitivität, Kirchhoff. Familienähnlichkeit: Prim ist Dijkstra mit anderer Schlüsselregel (Kosten der Randkante statt Weglänge) - ein Bezug zur Kürzeste-Wege-Linie, hier nicht vertieft.
 - **Synthetische Instanzen:** Punkte im Quadrat, euklidische Kosten mit Zufallszuschlag; keine Straßennetze, Kapazitäten oder Richtungen.
 
 ## Verifikation
@@ -112,6 +112,4 @@ pytest tests/ -v
 
 ---
 
-Teil des [Operations-Research-Demo-Portfolios](https://sebastianhanisch.net/demos.html) von
-[Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning.
-Interesse an einer maßgeschneiderten Lösung? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html).
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Spannbäume: vom Kruskal bis zum Zufallsbaum](https://sebastianhanisch.net/konzepte-spannbaum.html).

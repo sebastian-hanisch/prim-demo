@@ -49,7 +49,7 @@ PRESETS = {
     "Lehrbuchbeispiel": {"kind": "textbook", "n": 30, "k": 6, "terrain": 0.3, "round_costs": False, "seed": 35, "variant": "eager", "start": "depot"},
 }
 PRESET_HELP = {
-    "Standardfall (Voreinstellung)": "30 Filialen, k = 6, Seed 35: Prim mit Decrease-Key-Heap braucht 413 Elementarschritte, Array 548, Kruskal 929, Prim mit lazy-Heap 1282. Alle liefern denselben Baum (Kosten 466.63), aber Prim wächst als EIN Baum vom Depot aus, Kruskal aus 30 Fragmenten. Rang-Korrelation der Reihenfolge 0.47.",
+    "Standardfall (Voreinstellung)": "30 Filialen, k = 6, Seed 35: Prim mit Decrease-Key-Heap braucht 413 Elementarschritte, Array 548, Kruskal 929, Prim mit lazy-Heap 1282. Alle liefern denselben Baum (Kosten 466.63), aber Prim wächst als EIN Baum vom Depot aus, Kruskal aus 31 Fragmenten (30 Filialen und das Depot). Rang-Korrelation der Reihenfolge 0.47.",
     "Dünnes Netz (k = 3)": "Nur 59 Kandidatenkanten: Prim mit lazy-Heap (466 Schritte) ist kaum billiger als Kruskal (456); der Decrease-Key-Heap braucht 249, das Array 494. Im dünnen Graphen hat Kruskal gegen die lazy-Umsetzung nichts zu verlieren.",
     "Dichter Graph (k = 20)": "361 Kanten: jetzt gewinnt das einfache Array (796 Schritte) knapp gegen den Decrease-Key-Heap (841); der lazy-Heap (2848) und Kruskal (3009) liegen weit zurück. Der lazy-Heap hält bis zu 307 Einträge, der Decrease-Key-Heap höchstens 26.",
     "Vollständiger Graph (n = 30)": "465 Kanten: Array 900, Decrease-Key 977, lazy 3298, Kruskal 3913 Schritte. Der lazy-Heap wächst auf 410 Einträge (79 veraltete), der Decrease-Key-Heap bleibt bei 30; Kruskal muss 465 Kanten sortieren, obwohl es nur 109 ansieht.",

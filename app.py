@@ -65,7 +65,7 @@ Wie man den Rand verwaltet, ist die eigentliche Frage: **Array** (jede Runde all
 """
 )
 st.caption(
-    "Setzt auf [kruskal-demo](https://github.com/sebastian-hanisch/kruskal-demo) auf (dieselben Instanzen; Kruskal läuft als Vergleich mit). Geplante Nachfolger (nicht gebaut): Borůvka, "
+    "Setzt auf [kruskal-demo](https://github.com/sebastian-hanisch/kruskal-demo) auf (dieselben Instanzen; Kruskal läuft als Vergleich mit). Weitere Stücke der Reihe (alle gebaut): Borůvka, "
     "Euklidischer MST, Gerichteter Spannbaum, Grad-/Hop-beschränkter und Kapazitierter MST, Steiner-Baum, Prize-Collecting Steiner-Baum, Sensitivität, zufällige Spannbäume."
 )
 
@@ -268,6 +268,6 @@ Implementiert in `prim_algorithm.py` (`BinaryHeap`, `prim` in drei Umsetzungen, 
 st.markdown("---")
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Spannbäume: vom Kruskal bis zum Zufallsbaum](https://sebastianhanisch.net/konzepte-spannbaum.html)."
 )
