@@ -1,6 +1,7 @@
 """Plotly-Abbildungen: Karte, Baumwachstum von Kruskal (Fragmente) und Prim (ein Baum mit Rand) nebeneinander, Streudiagramm der Annahmereihenfolge, Aufwands-Balken,
 Rand-/Heapgröße über die Schritte, Sweeps. Achsen sind gesperrt (fixedrange), damit Touch-Geräte beim Scrollen nicht zoomen."""
 
+import math
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
@@ -9,6 +10,23 @@ FRONTIER_COLOR = "#f58518"
 GREY = "rgba(150,150,150,0.3)"
 ALGO_COLORS = {"array": "#4c78a8", "lazy": "#e45756", "eager": "#54a24b", "kruskal": "#7b3fbf"}
 ALGO_LABELS = {"array": "Prim (Array)", "lazy": "Prim (Heap, lazy)", "eager": "Prim (Heap, Decrease-Key)", "kruskal": "Kruskal"}
+
+
+def _ref_line(fig, value, text, position, axis, log=True, **line_kwargs):
+    """Referenzlinie mit Beschriftung auf einer logarithmischen Achse: die Linie liegt auf dem Datenwert, die Beschriftung braucht log10 des Werts
+    (add_hline und add_vline setzen beide auf denselben Wert, die Beschriftung sitzt dann falsch und dehnt die Achse); log=False für lineare Achsen."""
+    if log and not value > 0.0:
+        return
+    pos = math.log10(value) if log else value
+    top, left = "top" in position, "left" in position
+    if axis == "y":
+        fig.add_hline(y=value, **line_kwargs)
+        if text:
+            fig.add_annotation(xref="paper", yref="y", x=0 if left else 1, y=pos, text=text, showarrow=False, xanchor="left" if left else "right", yanchor="bottom" if top else "top")
+    else:
+        fig.add_vline(x=value, **line_kwargs)
+        if text:
+            fig.add_annotation(xref="x", yref="paper", x=pos, y=1 if top else 0, text=text, showarrow=False, xanchor="right" if left else "left", yanchor="top" if top else "bottom")
 
 
 def lock_axes(fig):
@@ -175,7 +193,7 @@ def build_sweep(rows, param_label, series, y_label, log_y=False, ref_line=None, 
         fig.add_trace(go.Scatter(x=xs + xs[::-1], y=hi + lo[::-1], mode="lines", fill="toself", fillcolor=f"rgba({rgb[0]},{rgb[1]},{rgb[2]},0.13)", line=dict(width=0), showlegend=False, hoverinfo="skip"))
         fig.add_trace(go.Scatter(x=xs, y=ys, mode="lines+markers", line=dict(color=color, width=2.5), name=name))
     if ref_line is not None:
-        fig.add_hline(y=ref_line, line=dict(color="#888", dash="dash", width=1.5), annotation_text=ref_label, annotation_position="top left")
+        _ref_line(fig, ref_line, ref_label, "top left", "y", log=log_y, line=dict(color="#888", dash="dash", width=1.5))
     fig.update_xaxes(title_text=param_label, type="category")
     fig.update_yaxes(title_text=y_label, type="log" if log_y else "linear")
     return _base(fig, 360, legend_y=-0.3)
